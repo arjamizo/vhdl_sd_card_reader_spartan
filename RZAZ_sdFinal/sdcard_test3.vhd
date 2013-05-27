@@ -49,7 +49,7 @@ ARCHITECTURE behavior OF sdcard_test3 IS
          ledout : OUT  std_logic_vector(7 downto 0);
          address : IN  std_logic_vector(31 downto 0);
          output_strobe : OUT  std_logic;
-         received : OUT  std_logic;
+         recv : OUT  std_logic_vector(7 downto 0);
          clk : IN  std_logic;
          reset : IN  std_logic
         );
@@ -69,11 +69,13 @@ ARCHITECTURE behavior OF sdcard_test3 IS
    signal sclk : std_logic;
    signal ledout : std_logic_vector(7 downto 0);
    signal output_strobe : std_logic;
-   signal received : std_logic;
+   signal recv : std_logic_vector(7 downto 0);
 
-   -- Clock period definitions
-   constant sclk_period : time := 10 ns;
-   constant clk_period : time := 10 ns;
+ 
+	
+   signal prepmiso : std_logic;
+   signal clocker : std_logic := '0';
+   signal onlyonce : std_logic := '0';
  
 BEGIN
  
@@ -87,40 +89,24 @@ BEGIN
           ledout => ledout,
           address => address,
           output_strobe => output_strobe,
-          received => received,
+          recv => recv,
           clk => clk,
           reset => reset
         );
 
-   -- Clock process definitions
-   sclk_process :process
-   begin
-		sclk <= '0';
-		wait for sclk_period/2;
-		sclk <= '1';
-		wait for sclk_period/2;
-   end process;
- 
-   clk_process :process
-   begin
-		clk <= '0';
-		wait for clk_period/2;
-		clk <= '1';
-		wait for clk_period/2;
-   end process;
- 
-
-   -- Stimulus process
-   stim_proc: process
-   begin		
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-
-      wait for sclk_period*10;
-
-      -- insert stimulus here 
-
-      wait;
-   end process;
-
+	--linia zegarowa
+   clk <= not clk after 10 us;
+	--linia reset
+	reset <= '0', '1' after 100 ms, '0' after 110 ms;
+	--linia symulacji ¿¹dania odczytu danych
+	rd <= '0', '1' after 180 ms, '0' after 190 ms;
+	
+	-- ponizsze cztery linie powoduja, 
+	-- ze tylko na poczatku linia miso bedzie 
+	-- high, pozniej bedzie juz tylko pulsowac
+	onlyonce <= '1', '0' after 150 ms;
+	clocker <= not clocker after 33 us;
+	prepmiso <= onlyonce or clocker;
+	miso <= prepmiso; 
+	
 END;
