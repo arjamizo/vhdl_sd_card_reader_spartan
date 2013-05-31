@@ -307,7 +307,7 @@
     <property xil_pn:name="Use Custom Simulation Command File Map" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Use Custom Simulation Command File Par" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Use Custom Simulation Command File Translate" xil_pn:value="false" xil_pn:valueState="default"/>
-    <property xil_pn:name="Use Custom Waveform Configuration File Behav" xil_pn:value="true" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Use Custom Waveform Configuration File Behav" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Use Custom Waveform Configuration File Map" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Use Custom Waveform Configuration File Par" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Use Custom Waveform Configuration File Translate" xil_pn:value="false" xil_pn:valueState="default"/>
@@ -328,7 +328,7 @@
     <property xil_pn:name="Working Directory" xil_pn:value="." xil_pn:valueState="non-default"/>
     <property xil_pn:name="Write Timing Constraints" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="XOR Collapsing" xil_pn:value="true" xil_pn:valueState="default"/>
-    <property xil_pn:name="iMPACT Project File" xil_pn:value="impact.ipf" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="iMPACT Project File" xil_pn:value="default.ipf" xil_pn:valueState="non-default"/>
     <!--                                                                                  -->
     <!-- The following properties are for internal use only. These should not be modified.-->
     <!--                                                                                  -->

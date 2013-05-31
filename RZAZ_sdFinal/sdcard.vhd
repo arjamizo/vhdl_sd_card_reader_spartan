@@ -80,7 +80,7 @@ type states is (
 signal sclk_sig : std_logic := '0';
 signal forcesig : std_logic := '0';
 signal cmd_out : std_logic_vector(47 downto 0);
-signal read_cmd : std_logic_vector(55 downto 0);
+signal read_cmd : std_logic_vector(47 downto 0);
 signal counter_sclk : std_logic_vector(31 downto 0):=conv_std_logic_vector(0, 32);
 signal bit_counter : std_logic_vector(31 downto 0):=conv_std_logic_vector(0, 32);
 signal byte_counter : std_logic_vector(31 downto 0):=conv_std_logic_vector(0, 32);
@@ -244,21 +244,21 @@ main: process (clk, reset)
 					
 					when cmd17_load => 
 						status(3) <= '1';
-						read_cmd <= x"FF" & x"51" & address & x"FF";
+						read_cmd <= x"51" & address & x"FF";
 						cmd_mode <= '0'; --set cmd writing to reading content
-						bit_counter <= conv_std_logic_vector(56, 32);
+						bit_counter <= conv_std_logic_vector(48, 32);
 						next_state <= cmd17_sending;
 						
 					when cmd17_sending => 
 						status(4) <= '1';
 						if(sclk_sig = '1') then
 							if(bit_counter=1) then
-								next_state <= readingDataBlock;
-								byte_counter <= conv_std_logic_vector(512, 32);
+								byte_counter <= conv_std_logic_vector(64, 32);
 								bit_counter <= conv_std_logic_vector(8, 32);
+								next_state <= readingDataBlock;
 							else 
 								bit_counter <= bit_counter - 1; 
-								read_cmd <= read_cmd(54 downto 0) & '0'; --rejestr przesuwny w prawo
+								read_cmd <= read_cmd(46 downto 0) & '0'; --rejestr przesuwny w prawo
 							end if;
 						end if;
 					sclk_sig <= not sclk_sig;
@@ -320,7 +320,7 @@ end process;
 
 
   sclk <= sclk_sig; -- wyprowadzenie sygna³u pracy karty na wyjscie
-  mosi <= (cmd_out(47) and cmd_mode) or (read_cmd(55) and (not cmd_mode));
+  mosi <= (cmd_out(47) and cmd_mode) or (read_cmd(47) and (not cmd_mode));
   -- demultipleksacja komendy 48-butowa lub 56-bitowa
   ledout <= status; -- wypowadzenie aktualnego stanu na diody
   recv <= received; -- wypowadzenie danych odczytanych z karty
